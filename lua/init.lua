@@ -1,5 +1,30 @@
 local M = {}
 
+local default_opts = {
+	templates = {
+		vue = {
+			"<script lang=\"ts\" setup></script>",
+			"",
+			"<template></template>"
+		},
+		typescriptreact = {
+			"type Props = {}",
+			"function Name({}: Props) {}",
+			"",
+			"export default Name"
+		},
+		javascriptreact = {
+			"function Name({}) {}",
+			"",
+			"export default Name"
+		},
+		markdown = {
+			"---",
+			"---"
+		}
+	}
+}
+
 local function concatTables(t1, t2)
 	local T = {}
 
@@ -12,16 +37,6 @@ local function concatTables(t1, t2)
 	end
 
 	return T
-end
-
-local function has_value(tab, val)
-	for _, value in ipairs(tab) do
-		if value == val then
-			return true
-		end
-	end
-
-	return false
 end
 
 local function checkIfBufferEmpty()
@@ -39,32 +54,24 @@ local function checkIfBufferEmpty()
 end
 
 local function printToBuffer(ft)
-	local status, template = pcall(require, "template.templates." .. ft)
+	local template = M.opts.templates[ft]
 
-	if status then
-		local len = #template
-		vim.api.nvim_buf_set_lines(0, 0, len - 1, false, template)
-	end
+	local len = #template
+	vim.api.nvim_buf_set_lines(0, 0, len - 1, false, template)
 end
 
-local fts = { "vue", "typescriptreact", "javascriptreact", "markdown" }
 local function checkFileType()
 	local ft = vim.bo.filetype
-	print(ft)
 
-	if has_value(fts, ft) and checkIfBufferEmpty() then
+	if M.opts.templates[ft] ~= nil and checkIfBufferEmpty() then
 		printToBuffer(ft)
-	elseif M.opts.silence == false then
-		print("There is no default template for this file, you can add it from options")
 	end
 end
 
-local default_opts = {
-	silence = false
-}
 
 function M.setup(opts)
 	M.opts = concatTables(default_opts, opts)
+	-- TODO: check these events, they might not what I want
 	vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
 		group = vim.api.nvim_create_augroup("AAA", { clear = true }),
 		callback = checkFileType,
