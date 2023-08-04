@@ -1,11 +1,31 @@
 local M = {}
 
+-- TODO: Add possibility of multiple templates and ask in
+
 local default_opts = {
 	templates = {
 		vue = {
-			"<script lang=\"ts\" setup></script>",
-			"",
-			"<template></template>"
+			{
+				name = "Vue 2",
+				template = {
+					"<template>",
+					"<div>",
+					"</div>",
+					"<template>",
+					"",
+					"<script>",
+					"export default {}",
+					"</script>",
+				}
+			},
+			{
+				name = "Vue 3",
+				template = {
+					"<script lang=\"ts\" setup></script>",
+					"",
+					"<template></template>"
+				}
+			}
 		},
 		typescriptreact = {
 			"type Props = {}",
@@ -53,11 +73,67 @@ local function checkIfBufferEmpty()
 	return true
 end
 
-local function printToBuffer(ft)
-	local template = M.opts.templates[ft]
+local function getTemplateNames(tab)
+	local names = {}
+	local n = 0
 
-	local len = #template
-	vim.api.nvim_buf_set_lines(0, 0, len - 1, false, template)
+	for _, v in pairs(tab) do
+		n = n + 1
+		names[n] = v.name
+	end
+
+	return names
+end
+
+local function findElementByName(list, name)
+	for _, table in ipairs(list) do
+		if table["name"] == name then
+			return table
+		end
+	end
+
+	return nil
+end
+
+local function getTemplate(ft)
+	local templateValue = M.opts.templates[ft]
+	if type(templateValue[1]) == 'string' then
+		return templateValue
+	end
+
+	local c
+	-- TODO: burada kaldın, seçili olanın template kısmını alıp döndürmeye bak.
+	local co = coroutine.create(function()
+		vim.ui.select(getTemplateNames(templateValue), {
+			prompt = "Choose template",
+		}, function(choice)
+			c = choice
+			coroutine.yield()
+		end)
+	end)
+
+	local resume = nil
+	while true do
+		resume = coroutine.resume(co)
+		if resume ~= nil then
+			break
+		end
+	end
+
+	local foundTemplate = findElementByName(templateValue, c)
+
+	if foundTemplate == nil then return end
+
+	return foundTemplate.template
+end
+
+local function printToBuffer(ft)
+	local template = getTemplate(ft)
+
+	if template ~= nil then
+		local len = #template
+		vim.api.nvim_buf_set_lines(0, 0, len - 1, false, template)
+	end
 end
 
 local function checkFileType()
@@ -70,10 +146,11 @@ end
 
 
 function M.setup(opts)
+	opts = opts or {}
 	M.opts = concatTables(default_opts, opts)
 	-- TODO: check these events, they might not what I want
-	vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
-		group = vim.api.nvim_create_augroup("AAA", { clear = true }),
+	vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+		group = vim.api.nvim_create_augroup("Entered Buf For Template", { clear = true }),
 		callback = checkFileType,
 	})
 end
