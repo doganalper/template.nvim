@@ -73,8 +73,12 @@ local function concatTables(t1, t2)
 	return T
 end
 
+local function getBufferLineCount()
+	vim.api.nvim_buf_line_count(0)
+end
+
 local function checkIfBufferEmpty()
-	local line_count = vim.api.nvim_buf_line_count(0)
+	local line_count = getBufferLineCount()
 	if line_count == 0 then
 		return true
 	end
@@ -149,14 +153,32 @@ local function printToBuffer(ft)
 	end
 end
 
+local function getFt()
+	return vim.bo.filetype
+end
+
 local function checkFileType()
-	local ft = vim.bo.filetype
+	local ft = getFt()
 
 	if M.opts.templates[ft] ~= nil and checkIfBufferEmpty() then
 		printToBuffer(ft)
 	end
 end
 
+local function clearBuffer()
+	local line_count = getBufferLineCount()
+
+	vim.api.nvim_buf_set_lines(0, 0, line_count, false, { "" })
+end
+
+function M.switch_template()
+	local ft = getFt()
+
+	if M.opts.templates[ft] ~= nil then
+		clearBuffer() -- clear buffer first for any content
+		printToBuffer(ft)
+	end
+end
 
 function M.setup(opts)
 	opts = opts or {}
