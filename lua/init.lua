@@ -1,7 +1,5 @@
 local M = {}
 
--- TODO: Add possibility of multiple templates and ask in
-
 local default_opts = {
 	templates = {
 		vue = {
@@ -102,7 +100,6 @@ local function getTemplate(ft)
 	end
 
 	local c
-	-- TODO: burada kaldın, seçili olanın template kısmını alıp döndürmeye bak.
 	local co = coroutine.create(function()
 		vim.ui.select(getTemplateNames(templateValue), {
 			prompt = "Choose template",
