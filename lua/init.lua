@@ -147,10 +147,19 @@ local function getTemplate(ft)
 	return foundTemplate.template
 end
 
-local function printToBuffer(ft)
+local function clearBuffer()
+	local line_count = getBufferLineCount()
+
+	vim.api.nvim_buf_set_lines(0, 0, line_count, false, { "" })
+end
+
+local function printToBuffer(ft, clearBuf)
 	local template = getTemplate(ft)
 
 	if template ~= nil then
+		if clearBuf then
+			clearBuffer() -- clear buffer first for any content, useful for switching templates
+		end
 		local len = #template
 		vim.api.nvim_buf_set_lines(0, 0, len - 1, false, template)
 	end
@@ -168,19 +177,11 @@ local function checkFileType()
 	end
 end
 
-local function clearBuffer()
-	local line_count = getBufferLineCount()
-	print(line_count)
-
-	vim.api.nvim_buf_set_lines(0, 0, line_count, false, { "" })
-end
-
 function M.switch_template()
 	local ft = getFt()
 
 	if M.opts.templates[ft] ~= nil then
-		clearBuffer() -- clear buffer first for any content
-		printToBuffer(ft)
+		printToBuffer(ft, true)
 	end
 end
 
