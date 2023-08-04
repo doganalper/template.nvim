@@ -41,12 +41,14 @@ local default_opts = {
 			{
 				name = "React Native",
 				template = {
-					"import {View} from 'react-native'",
+					"import { View, StyleSheet } from 'react-native'",
 					"",
 					"type Props = {}",
 					"function Name({}: Props) {}",
 					"",
-					"export default Name"
+					"export default Name",
+					"",
+					"const styles = StyleSheet.create({})"
 				}
 			}
 		},
