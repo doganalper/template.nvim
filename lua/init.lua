@@ -1,6 +1,9 @@
 local M = {}
 
 local default_opts = {
+	mappings = {
+		switch_template = "<leader>st"
+	},
 	templates = {
 		vue = {
 			{
@@ -74,7 +77,7 @@ local function concatTables(t1, t2)
 end
 
 local function getBufferLineCount()
-	vim.api.nvim_buf_line_count(0)
+	return vim.api.nvim_buf_line_count(0)
 end
 
 local function checkIfBufferEmpty()
@@ -167,6 +170,7 @@ end
 
 local function clearBuffer()
 	local line_count = getBufferLineCount()
+	print(line_count)
 
 	vim.api.nvim_buf_set_lines(0, 0, line_count, false, { "" })
 end
@@ -188,6 +192,9 @@ function M.setup(opts)
 		group = vim.api.nvim_create_augroup("Entered Buf For Template", { clear = true }),
 		callback = checkFileType,
 	})
+	vim.keymap.set("n", M.opts.mappings.switch_template, function()
+		M.switch_template()
+	end, {})
 end
 
 return M
