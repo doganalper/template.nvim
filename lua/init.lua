@@ -26,10 +26,26 @@ local default_opts = {
 			}
 		},
 		typescriptreact = {
-			"type Props = {}",
-			"function Name({}: Props) {}",
-			"",
-			"export default Name"
+			{
+				name = "React",
+				template = {
+					"type Props = {}",
+					"function Name({}: Props) {}",
+					"",
+					"export default Name"
+				}
+			},
+			{
+				name = "React Native",
+				template = {
+					"import {View} from 'react-native'",
+					"",
+					"type Props = {}",
+					"function Name({}: Props) {}",
+					"",
+					"export default Name"
+				}
+			}
 		},
 		javascriptreact = {
 			"function Name({}) {}",
