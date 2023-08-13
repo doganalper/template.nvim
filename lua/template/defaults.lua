@@ -5,7 +5,7 @@ return {
 	templates = {
 		vue = {
 			{
-				name = "Vue 2",
+				name = "Vue 2 JS",
 				template = {
 					"<template>",
 					"<div>",
@@ -15,6 +15,20 @@ return {
 					"<script>",
 					"export default {}",
 					"</script>",
+				}
+			},
+			{
+				name = "Vue 2 Ts",
+				template = {
+					"<template>",
+					"<div>",
+					"</div>",
+					"</template>",
+					"",
+					"<script lang=\"ts\">",
+					"import Vue from 'vue';",
+					"export default Vue.extend({})",
+					"</script>"
 				}
 			},
 			{
