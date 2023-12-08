@@ -7,6 +7,7 @@ function M.switch_template()
   local ft = internals.getFt()
 
   local templates = M.opts.templates[ft]
+  print(#templates)
   if templates ~= nil and #templates > 1 then
     internals.printToBuffer(ft, true)
   end
