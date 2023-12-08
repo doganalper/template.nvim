@@ -61,3 +61,6 @@ require('doganalper/template.nvim').setup({
 | Mappings       | Action                                               |
 |----------------|------------------------------------------------------|
 | `<leader>st` |  [S]witch [T]emplate                                           |
+
+## TODO List
+[] Add switching places with <Tab> and <S-Tab>.
