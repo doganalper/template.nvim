@@ -46,6 +46,49 @@ require('doganalper/template.nvim').setup({
 })
 ```
 
+### Example Templates
+```lua
+templates = {
+  vue = {
+    {
+      name = "Vue 2 JS",
+      template = {
+        "<template>",
+        "<div>",
+        "</div>",
+        "<template>",
+        "",
+        "<script>",
+        "export default {}",
+        "</script>",
+      },
+    },
+    {
+      name = "Vue 2 Ts",
+      template = {
+        "<template>",
+        "<div>",
+        "</div>",
+        "</template>",
+        "",
+        '<script lang="ts">',
+        "import Vue from 'vue';",
+        "export default Vue.extend({})",
+        "</script>",
+      },
+    },
+    {
+      name = "Vue 3",
+      template = {
+        '<script lang="ts" setup></script>',
+        "",
+        "<template></template>",
+      },
+    },
+  },
+},
+```
+
 ## Default Mappings
 | Mappings       | Action                                               |
 |----------------|------------------------------------------------------|
@@ -53,3 +96,4 @@ require('doganalper/template.nvim').setup({
 
 ## TODO List
 - [ ] Add switching places with <Tab> and <S-Tab>.
+- [ ] Find a way to easily add indents to templates.
