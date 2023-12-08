@@ -95,5 +95,5 @@ templates = {
 | `<leader>st` |  [S]witch [T]emplate                                           |
 
 ## TODO List
-- [ ] Add switching places with <Tab> and <S-Tab>.
+- [ ] Add switching places with `<Tab>` and `<S-Tab>`.
 - [ ] Find a way to easily add indents to templates.
