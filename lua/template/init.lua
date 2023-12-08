@@ -6,7 +6,8 @@ local M = {}
 function M.switch_template()
   local ft = internals.getFt()
 
-  if M.opts.templates[ft] ~= nil then
+  local templates = M.opts.templates[ft] ~= nil
+  if templates and #templates > 1 then
     internals.printToBuffer(ft, true)
   end
 end
