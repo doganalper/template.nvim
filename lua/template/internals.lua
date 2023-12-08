@@ -56,8 +56,9 @@ end
 
 function M.getTemplate(ft)
   local templateValue = M.opts.templates[ft]
-  if type(templateValue[1]) == "string" then
-    return templateValue
+
+  if #templateValue == 1 then
+    return templateValue[1]
   end
 
   local c
