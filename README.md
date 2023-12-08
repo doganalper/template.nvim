@@ -1,5 +1,7 @@
 # Filetype Based Template Plugin For Neovim
 
+![template-plugin](https://github.com/doganalper/template.nvim/assets/48688801/62fb11f0-3d36-4b09-a71c-d862eaef7cf9)
+
 ### Installation
 Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -12,6 +14,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim)
       -- custom config
     })
   end
+
 }
 ```
 
