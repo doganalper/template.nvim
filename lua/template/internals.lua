@@ -58,7 +58,7 @@ function M.getTemplate(ft)
   local templateValue = M.opts.templates[ft]
 
   if #templateValue == 1 then
-    return templateValue[1]
+    return templateValue[1].template
   end
 
   local c
