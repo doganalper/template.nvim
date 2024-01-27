@@ -24,9 +24,9 @@ function M.setup(opts)
     end,
   })
 
-  vim.keymap.set("n", M.opts.mappings.switch_template, function()
-    M.switch_template()
-  end, { desc = "Change current file template" })
+  vim.keymap.set("n", M.opts.mappings.switch_template, M.switch_template, { desc = "Change current file template" })
 end
+
+M.setup()
 
 return M

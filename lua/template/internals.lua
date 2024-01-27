@@ -1,5 +1,7 @@
 M = {}
 
+local localOpts = nil
+
 function M.concatTables(t1, t2)
   T = {}
 
@@ -55,7 +57,11 @@ function M.findElementByName(list, name)
 end
 
 function M.getTemplate(ft)
-  local templateValue = M.opts.templates[ft]
+  if localOpts == nil then
+    return
+  end
+
+  local templateValue = localOpts.templates[ft]
 
   if #templateValue == 1 then
     return templateValue[1].template
@@ -111,10 +117,10 @@ function M.getFt()
 end
 
 function M.checkFileType(opts)
-  M.opts = opts
+  localOpts = opts
   local ft = M.getFt()
 
-  if M.opts.templates[ft] ~= nil and M.checkIfBufferEmpty() then
+  if localOpts.templates and localOpts.templates[ft] ~= nil and M.checkIfBufferEmpty() then
     M.printToBuffer(ft)
   end
 end
