@@ -56,7 +56,7 @@ function M.findElementByName(list, name)
   return nil
 end
 
-function M.getTemplate(ft)
+function M.getTemplate(ft, clearBuf)
   if localOpts == nil then
     return
   end
@@ -67,31 +67,18 @@ function M.getTemplate(ft)
     return templateValue[1].template
   end
 
-  local c
-  local co = coroutine.create(function()
-    vim.ui.select(M.getTemplateNames(templateValue), {
-      prompt = "Choose template",
-    }, function(choice)
-      c = choice
-      coroutine.yield()
+  vim.ui.select(M.getTemplateNames(templateValue), {
+    prompt = "Choose template",
+  }, function(choice)
+      local foundTemplate = M.findElementByName(templateValue, choice)
+
+      if foundTemplate == nil then
+        return
+      end
+
+      M.printToBuffer(foundTemplate.template, clearBuf)
+
     end)
-  end)
-
-  local resume = nil
-  while true do
-    resume = coroutine.resume(co)
-    if resume ~= nil then
-      break
-    end
-  end
-
-  local foundTemplate = M.findElementByName(templateValue, c)
-
-  if foundTemplate == nil then
-    return
-  end
-
-  return foundTemplate.template
 end
 
 function M.clearBuffer()
@@ -100,9 +87,7 @@ function M.clearBuffer()
   vim.api.nvim_buf_set_lines(0, 0, line_count, false, { "" })
 end
 
-function M.printToBuffer(ft, clearBuf)
-  local template = M.getTemplate(ft)
-
+function M.printToBuffer(template, clearBuf)
   if template ~= nil then
     if clearBuf then
       M.clearBuffer() -- clear buffer first for any content, useful for switching templates
@@ -121,7 +106,7 @@ function M.checkFileType(opts)
   local ft = M.getFt()
 
   if localOpts.templates and localOpts.templates[ft] ~= nil and M.checkIfBufferEmpty() then
-    M.printToBuffer(ft)
+    M.getTemplate(ft)
   end
 end
 
