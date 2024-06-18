@@ -64,7 +64,8 @@ function M.getTemplate(ft, clearBuf)
   local templateValue = localOpts.templates[ft]
 
   if #templateValue == 1 then
-    return templateValue[1].template
+    M.printToBuffer(templateValue[1].template, clearBuf)
+    return
   end
 
   vim.ui.select(M.getTemplateNames(templateValue), {
