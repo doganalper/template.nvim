@@ -4,7 +4,7 @@ local internals = require("template.internals")
 local M = {}
 
 function M.switch_template()
-  local filetype = internals.getFt()
+  local filetype = internals.getFileType()
   local templates = M.opts.templates[filetype]
 
   if templates and #templates > 1 then
