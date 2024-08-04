@@ -28,7 +28,6 @@ function M.setup(opts)
   -- Set up key mapping for switching templates
   vim.keymap.set("n", M.opts.mappings.switch_template, M.switch_template, { desc = "Change current file template" })
 
-  -- Map Tab to jump to the next marker
   vim.keymap.set(
     { "n", "v" },
     M.opts.mappings.jump_to_next_marker,
@@ -36,7 +35,6 @@ function M.setup(opts)
     { noremap = true, silent = true }
   )
 
-  -- Map Shift-Tab to jump to the previous marker
   vim.keymap.set(
     { "n", "v" },
     M.opts.mappings.jump_to_prev_marker,
