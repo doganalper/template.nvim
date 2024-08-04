@@ -97,6 +97,9 @@ templates = {
 |----------------|------------------------------------------------------|
 | `<leader>st` |  [S]witch [T]emplate                                           |
 
+## File Variables
+Currently you can use `{F_NAME}` to insert filename and `{F_NAME_NO_EXTENSION}` to insert filename without file extensions to your templates. More variables will be implemented depending on usage/request.
+
 ## TODO List
 - [ ] Add switching places with `<Tab>` and `<S-Tab>`.
 - [ ] Find a way to easily add indents to templates.
