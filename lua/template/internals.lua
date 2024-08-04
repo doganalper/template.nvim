@@ -1,32 +1,39 @@
 -- List of file variables to be replaced in templates
 local file_variables = { "{F_NAME}", "{F_NAME_NO_EXTENSION}" }
+local jump_marker = "|"
 
 local M = {}
 local localOpts = nil
 
 -- Function to jump to the next marker
 function M.jump_to_next_marker()
-  local marker = vim.fn.search("\\$\\d\\+", "W")
+  -- set mode to normal if in visual mode
+  if vim.api.nvim_get_mode().mode == "v" then
+    vim.api.nvim_feedkeys("v", "n", false)
+  end
+
+  local marker = vim.fn.search(jump_marker, "W")
   if marker ~= 0 then
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     vim.api.nvim_win_set_cursor(0, { row, col })
 
-    -- Enter visual mode and extend the selection
-    vim.api.nvim_feedkeys('v', 'n', false)
-    vim.api.nvim_feedkeys('l', 'n', false)
+    vim.api.nvim_feedkeys("v", "n", false)
   end
 end
 
 -- Function to jump to the previous marker
 function M.jump_to_prev_marker()
-  local marker = vim.fn.search("\\$\\d\\+", "bW")
+  -- set mode to normal if in visual mode
+  if vim.api.nvim_get_mode().mode == "v" then
+    vim.api.nvim_feedkeys("v", "n", false)
+  end
+
+  local marker = vim.fn.search(jump_marker, "bW")
   if marker ~= 0 then
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
     vim.api.nvim_win_set_cursor(0, { row, col })
 
-    -- Enter visual mode and extend the selection
-    vim.api.nvim_feedkeys('v', 'n', false)
-    vim.api.nvim_feedkeys('l', 'n', false)
+    vim.api.nvim_feedkeys("v", "n", false)
   end
 end
 
