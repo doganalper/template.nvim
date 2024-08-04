@@ -43,7 +43,9 @@ require('doganalper/template.nvim').setup({
     mappings = {
         -- this will call a function for switching templates
         -- if filetype has multiple template
-        switch_template = "<leader>st"
+        switch_template = "<leader>st",
+        jump_to_next_marker = "]m",
+        jump_to_prev_marker = "[m",
     },
     templates = {}
 })
@@ -96,9 +98,14 @@ templates = {
 | Mappings       | Action                                               |
 |----------------|------------------------------------------------------|
 | `<leader>st` |  [S]witch [T]emplate                                           |
+| `]m` |  Jump To Next Marker                                           |
+| `[m` |  Jump To Prev Marker                                           |
 
 ## File Variables
 Currently you can use `{F_NAME}` to insert filename and `{F_NAME_NO_EXTENSION}` to insert filename without file extensions to your templates. More variables will be implemented depending on usage/request.
+
+## Jump Markers
+You can place pipe `|` to mark a place on template to jump to that location with default or user given mapping.
 
 ## TODO List
 - [ ] Add switching places with `<Tab>` and `<S-Tab>`.
