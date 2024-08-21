@@ -124,10 +124,11 @@ end
 --- @param clearBuf boolean: Whether to clear the buffer before printing
 function M.printToBuffer(template, clearBuf)
   if M.isContainsVariables(template) then
-    local file_name = vim.fn.expand("%:t")
-    local file_name_without_extension = vim.fn.fnamemodify(file_name, ":r")
+    local full_file_name = vim.fn.expand("%:t")
+    local base_file_name = vim.fn.fnamemodify(full_file_name, ":t")
+    local file_name_without_extension = vim.split(base_file_name, "%.")[1]
     for i, line in ipairs(template) do
-      template[i] = string.gsub(line, "{F_NAME}", file_name)
+      template[i] = string.gsub(line, "{F_NAME}", full_file_name)
       template[i] = string.gsub(template[i], "{F_NAME_NO_EXTENSION}", file_name_without_extension)
     end
   end
